@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = false;
+option java_package = "com.mercateo.oss.mvnd";
+option java_outer_classname = "MVNDProto";
+
+package mvnd;
+
+message InvokeRequest {
+  string workDir = 1;
+  repeated string args = 2;
+}
+
+
+
+message InvokeResponse {
+	enum ResponseType {
+    	OUT = 0;
+	    ERR = 1;
+    	EXIT = 2;
+	}
+  ResponseType type = 1; 
+  string line = 2;
+  int32 errorCode = 3;
+}
+
+service MVNDService {
+  rpc invoke (InvokeRequest) returns (stream InvokeResponse) {}
+}

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.mercateo.oss</groupId>
+		<artifactId>oss-parent-pom</artifactId>
+		<version>1.0.2</version>
+	</parent>
+	<artifactId>mvnd</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<organization>
+		<name>Mercateo AG</name>
+		<url>http://www.mercateo.com</url>
+	</organization>
+	<name>MVNDaemon</name>
+	<description>Daemon backend for simple Maven runs without JVM Startup penalty</description>
+	<inceptionYear>2018</inceptionYear>
+	<modules>
+		<module>mvnd-server</module>
+		<module>mvnd-proto</module>
+	</modules>
+	<url>https://github.com/</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<!-- <scm> <connection>scm:git:git@github.com:Mercateo/factcast.git</connection> 
+		<developerConnection>scm:git:git@github.com:Mercateo/factcast.git</developerConnection> 
+		<url>https://github.com/Mercateo/factcast.git</url> <tag>HEAD</tag> </scm> -->
+	<developers>
+		<developer>
+			<name>Uwe Schaefer</name>
+			<email>uwe.schaefer@mercateo.com</email>
+			<organization>Mercateo AG</organization>
+			<organizationUrl>http://www.mercateo.com</organizationUrl>
+		</developer>
+	</developers>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>annotations</artifactId>
+			<version>3.0.1u2</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId> org.commonjava.maven.plugins
+										</groupId>
+										<artifactId> directory-maven-plugin
+										</artifactId>
+										<versionRange> [0.3.1,)
+										</versionRange>
+										<goals>
+											<goal>highest-basedir</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId> org.apache.maven.plugins
+										</groupId>
+										<artifactId> maven-enforcer-plugin
+										</artifactId>
+										<versionRange> [1.0,)
+										</versionRange>
+										<goals>
+											<goal>enforce</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
