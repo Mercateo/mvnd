@@ -16,14 +16,6 @@
 package com.mercateo.oss.mvnd;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.spi.LocationAwareLogger;
-
-import com.google.common.collect.Sets;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -72,32 +64,20 @@ public class MVNDaemon {
 	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		// TODO use proper cmdline parser lib and add handler for -? and help
-		if (Sets.newHashSet(args).contains("--debug"))
-			try {// This is actually a MavenSimpleLogger, but due to various classloader issues,
-					// can't work with the directly.
-				log.info("Setting debug loglevel");
-				Logger l = LoggerFactory.getLogger(MVNDaemon.class.getCanonicalName());
-				Field f = l.getClass().getSuperclass().getDeclaredField("currentLogLevel");
-				f.setAccessible(true);
-				f.set(l, LocationAwareLogger.DEBUG_INT);
-				f.set(LoggerFactory.getLogger(MVNDaemonService.class.getCanonicalName()),LocationAwareLogger.DEBUG_INT);
-				
-			} catch (Exception e) {
-				log.warn("Failed to reset the log level", e);
-			}
-		int portFromCmdLine = portFromCmdLine(args);
+		int portFromCmdLine = portFromEnv(args);
 		MVNDaemon daemon = new MVNDaemon(portFromCmdLine);
 		daemon.start();
 		daemon.blockUntilShutdown();
 	}
 
-	private static int portFromCmdLine(String[] args) {
-		return Arrays.stream(args).filter(MVNDaemon::isPort).mapToInt(s -> Integer.parseInt(s.trim().substring(7)))
-				.findFirst().orElse(DEFAULT_PORT);
+	private static int portFromEnv(String[] args) {
+		String port = System.getenv("MVND_PORT");
+		if (port != null) {
+			int p = Integer.parseInt(port);
+			if (p > 0)
+				return p;
+		}
+		return DEFAULT_PORT;
 	}
 
-	private static boolean isPort(String arg) {
-		return arg != null && arg.trim().startsWith("--port=");
-	}
 }
