@@ -11,11 +11,12 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>mvnd-server</artifactId>
+	<version>${project.parent.version}</version>
 	<dependencies>
 		<dependency>
 			<groupId>com.mercateo.oss</groupId>
 			<artifactId>mvnd-proto</artifactId>
-			<version>[0,)</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
