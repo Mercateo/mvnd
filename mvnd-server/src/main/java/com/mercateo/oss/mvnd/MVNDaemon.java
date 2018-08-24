@@ -64,10 +64,38 @@ public class MVNDaemon {
 	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		int portFromCmdLine = portFromEnv(args);
-		MVNDaemon daemon = new MVNDaemon(portFromCmdLine);
-		daemon.start();
-		daemon.blockUntilShutdown();
+
+		if (args != null && args.length > 0) {
+			if (args.length == 2)
+				if (args[0].trim().toLowerCase().startsWith("--install"))
+					install(args);
+
+			help();
+		} else {
+			MVNDaemon daemon = new MVNDaemon(portFromEnv(args));
+			daemon.start();
+			daemon.blockUntilShutdown();
+		}
+	}
+
+	private static void help() {
+		System.out.println("Usage: ");
+
+		System.out.println("");
+		System.out.println(" mvnd --install /path/to/apache/maven");
+		System.out.println("    Patch a fresh maven installation to use MVND");
+		System.out.println("");
+		System.out.println(" mvnd");
+		System.out.println(
+				"    Run mvnd and accept connections from mvnc on port 1971 (or the port defined by MVND_PORT environment variable.");
+		System.out.println("");
+
+		System.exit(2);
+	}
+
+	private static void install(String[] args) {
+		if (args.length != 2)
+			help();
 	}
 
 	private static int portFromEnv(String[] args) {
