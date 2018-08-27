@@ -21,8 +21,6 @@ import java.io.PrintStream;
 import java.util.Locale;
 import java.util.function.Supplier;
 
-import lombok.NoArgsConstructor;
-
 public final class ThreadLocalSystemPrintStreams implements AutoCloseable {
 
 	public static synchronized void install() {

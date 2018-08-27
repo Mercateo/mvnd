@@ -20,9 +20,7 @@ import java.io.IOException;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 public class MVNDaemon {
 	private static int DEFAULT_PORT = 1971;
@@ -31,9 +29,9 @@ public class MVNDaemon {
 	private Server server;
 
 	private void start() throws IOException {
-		log.info("binding to localhost:" + port);
+		System.out.println("mvnd binding to localhost:" + port);
 		server = ServerBuilder.forPort(port).addService(new MVNDaemonService()).build().start();
-		log.info("listening on " + port);
+		System.out.println("mvnd listening on " + port);
 		registerShutdownHook();
 	}
 
@@ -42,9 +40,9 @@ public class MVNDaemon {
 			@Override
 			public void run() {
 				System.err.println("");
-				log.info("shutting down gRPC server since JVM is shutting down");
+				System.out.println("shutting down gRPC server since JVM is shutting down");
 				MVNDaemon.this.stop();
-				log.info("server shut down complete");
+				System.out.println("server shut down complete");
 			}
 		});
 	}
@@ -59,18 +57,14 @@ public class MVNDaemon {
 	private void blockUntilShutdown() throws InterruptedException {
 		if (server != null) {
 			server.awaitTermination();
-			log.info("gRPC Server terminated");
+			System.out.println("gRPC Server terminated");
 		}
 	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 
 		if (args != null && args.length > 0) {
-			if (args.length == 2)
-				if (args[0].trim().toLowerCase().startsWith("--install"))
-					install(args);
-
-			help();
+			new CommandLineHandler(args).run();
 		} else {
 			MVNDaemon daemon = new MVNDaemon(portFromEnv(args));
 			daemon.start();
@@ -78,25 +72,9 @@ public class MVNDaemon {
 		}
 	}
 
-	private static void help() {
-		System.out.println("Usage: ");
 
-		System.out.println("");
-		System.out.println(" mvnd --install /path/to/apache/maven");
-		System.out.println("    Patch a fresh maven installation to use MVND");
-		System.out.println("");
-		System.out.println(" mvnd");
-		System.out.println(
-				"    Run mvnd and accept connections from mvnc on port 1971 (or the port defined by MVND_PORT environment variable.");
-		System.out.println("");
 
-		System.exit(2);
-	}
-
-	private static void install(String[] args) {
-		if (args.length != 2)
-			help();
-	}
+	
 
 	private static int portFromEnv(String[] args) {
 		String port = System.getenv("MVND_PORT");

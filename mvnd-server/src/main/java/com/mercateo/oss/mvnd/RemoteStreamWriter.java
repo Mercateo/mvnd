@@ -26,7 +26,8 @@ import com.mercateo.oss.mvnd.MVNDProto.InvokeResponse.ResponseType;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor class RemoteStreamWriter implements Runnable {
+@RequiredArgsConstructor
+class RemoteStreamWriter implements Runnable {
 
 	private AtomicBoolean alive = new AtomicBoolean(true);
 
@@ -38,23 +39,20 @@ import lombok.RequiredArgsConstructor;
 
 	@Override
 	public void run() {
-		try {
-			new BufferedReader(new InputStreamReader(i)).lines().forEachOrdered(line -> {
-				if (alive.get())
-					try {
-						responseObserver.onNext(InvokeResponse.newBuilder().setType(type).setLine(line).build());
-					} catch (IllegalStateException meh) {
-						// call is closed... skip the rest
-						alive.set(false);
-					}
-			});
-		} catch (Throwable meh) {
-		}
+		new BufferedReader(new InputStreamReader(i)).lines().forEachOrdered(line -> {
+			if (alive.get())
+				try {
+					responseObserver.onNext(InvokeResponse.newBuilder().setType(type).setLine(line).build());
+				} catch (Throwable meh) {
+					// call is closed... skip the rest
+					alive.set(false);
+				}
+		});
 	}
 
 	public void flush() {
-
 		try {
+			// block until no more bytes available
 			while (alive.get() && i.available() > 0)
 				Thread.sleep(50);
 		} catch (Throwable meh) {

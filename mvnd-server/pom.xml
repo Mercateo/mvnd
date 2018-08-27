@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
->
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.mercateo.oss</groupId>
 		<artifactId>mvnd</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.3-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>mvnd-server</artifactId>
-	<version>${project.parent.version}</version>
 	<dependencies>
 		<dependency>
 			<groupId>com.mercateo.oss</groupId>
@@ -19,14 +17,14 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.25</version>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-embedder</artifactId>
 			<version>3.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.unix4j</groupId>
+			<artifactId>unix4j-command</artifactId>
+			<version>0.5</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -40,7 +38,7 @@
 						<excludes>
 							<exclude> com.google.code.findbugs*:*</exclude>
 						</excludes>
-						
+
 						<includes>
 							<include>io.grpc*:*</include>
 							<include>io.netty*:*</include>
@@ -48,13 +46,15 @@
 							<include>com.squareup*:*</include>
 							<include>com.mercateo*:*</include>
 							<include>com.google*:*</include>
+							<include>org.unix4j*:*</include>
 						</includes>
 					</artifactSet>
-					 <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.mercateo.oss.mvnd.MVNDaemon</mainClass>
-                </transformer>
-              </transformers>
+					<transformers>
+						<transformer
+							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+							<mainClass>com.mercateo.oss.mvnd.MVNDaemon</mainClass>
+						</transformer>
+					</transformers>
 				</configuration>
 				<executions>
 					<execution>
@@ -62,7 +62,11 @@
 						<goals>
 							<goal>shade</goal>
 						</goals>
+						<configuration>
+							<finalName>mvnd</finalName>
+						</configuration>
 					</execution>
+
 				</executions>
 			</plugin>
 		</plugins>

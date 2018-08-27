@@ -15,7 +15,6 @@
  */
 package com.mercateo.oss.mvnd;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
@@ -42,7 +41,6 @@ import io.grpc.stub.StreamObserver;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class MVNDaemonService extends MVNDServiceImplBase {
 	private final ExecutorService es = Executors.newCachedThreadPool();
 
@@ -57,9 +55,6 @@ public class MVNDaemonService extends MVNDServiceImplBase {
 
 			String workDir = request.getWorkDir();
 
-			log.debug("invocation request: {}", request);
-
-			log.trace("preparing streams");
 			Set<Future<?>> writers = prepareStreams(responseObserver);
 
 			// add some debug loggin
@@ -90,11 +85,11 @@ public class MVNDaemonService extends MVNDServiceImplBase {
 					try {
 						t.get(100, TimeUnit.MILLISECONDS);
 					} catch (TimeoutException streamsDidNotClose) {
-						log.warn("streams did not close properly. Unexpected, but not a problem.", streamsDidNotClose);
+						System.out.println(
+								"streams did not close properly. Unexpected, but not a problem. " + streamsDidNotClose);
 					} catch (InterruptedException meh) {
 					} catch (ExecutionException e) {
-						log.debug("Unexpected exception while writing out to remote. Unexpected, but not a problem.",
-								e);
+						System.out.println("Exception while writing out to remote. Unexpected, but not a problem." + e);
 					}
 				});
 
@@ -106,11 +101,11 @@ public class MVNDaemonService extends MVNDServiceImplBase {
 				e.printStackTrace(System.err);
 				terminateCall(responseObserver, 1);
 			} finally {
-				log.trace("releasing streams");
 				releaseStreams();
 			}
 		} catch (Throwable e) {
-			log.error("invocation failed: ", e);
+			System.err.println("invocation failed: ");
+			e.printStackTrace(System.err);
 		}
 	}
 
