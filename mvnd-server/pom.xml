@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.mercateo.oss</groupId>
 		<artifactId>mvnd</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>mvnd-server</artifactId>
@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>com.mercateo.oss</groupId>
 			<artifactId>mvnd-proto</artifactId>
-			<version>${project.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
