@@ -19,8 +19,9 @@
 	<description>Daemon backend for simple Maven runs without JVM Startup penalty</description>
 	<inceptionYear>2018</inceptionYear>
 	<modules>
-		<module>mvnd-server</module>
 		<module>mvnd-proto</module>
+		<module>mvnd-client</module>
+		<module>mvnd-server</module>
 	</modules>
 	<url>https://github.com/</url>
 	<licenses>
@@ -59,6 +60,33 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-cleanup</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>../mvnd-client/target</directory>
+									<includes>
+										<include>mvnc</include>
+									</includes>
+									<targetPath>client/Linux-amd64</targetPath>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 

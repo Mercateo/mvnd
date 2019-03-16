@@ -1,12 +1,11 @@
 package com.mercateo.oss.mvnd;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintWriter;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -14,7 +13,6 @@ import java.util.concurrent.TimeoutException;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.mercateo.oss.mvnd.MVNDProto.InvokeResponse;
 import com.mercateo.oss.mvnd.MVNDProto.InvokeResponse.ResponseType;
 
 import io.grpc.stub.StreamObserver;
@@ -58,7 +56,7 @@ public class RemoteStreamWriterTest {
 		uut.flush();
 	}
 
-	@Test(timeout=300)
+	@Test(timeout=1000)
 	public void runUntilClosed() throws Exception {
 		PipedInputStream i = new PipedInputStream();
 		PipedOutputStream o = new PipedOutputStream(i);

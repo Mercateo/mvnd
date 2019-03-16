@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.mercateo.oss</groupId>
+		<artifactId>mvnd</artifactId>
+		<version>0.0.3-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>mvnd-client</artifactId>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<start-class>mvnc</start-class>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.mercateo.oss</groupId>
+			<version>0.0.3-SNAPSHOT</version>
+			<artifactId>mvnd-proto</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>io.grpc</groupId>
+					<artifactId>grpc-netty</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>io.grpc</groupId>
+					<artifactId>grpc-testing</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.26</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>mvnc</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<!-- <configuration> <release>11</release> </configuration> -->
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+
+					<transformers>
+						<transformer
+							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+							<mainClass>${start-class}</mainClass>
+						</transformer>
+					</transformers>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>native</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+
+				<file>
+					<exists>${java.home}/bin/native-image</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+
+					<plugin>
+						<groupId>com.oracle.substratevm</groupId>
+						<artifactId>native-image-maven-plugin</artifactId>
+						<version>1.0.0-rc13</version>
+						<configuration>
+							<start-class>mvnc</start-class>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>native-image</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>
