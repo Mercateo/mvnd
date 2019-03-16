@@ -34,3 +34,5 @@ is buildt using graal, then the client from module mvnd-client is preferred.
 
 For Mac, try to build maven-client with graal
 (https://www.graalvm.org/downloads/)
+
+### Please consider contributing either go or grall builds for exotic OSes.
