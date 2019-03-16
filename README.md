@@ -2,6 +2,7 @@
 Daemon backend for simple Maven runs without JVM Startup penalty
 
 [![CircleCI](https://circleci.com/gh/uweschaefer/mvnd/tree/master.svg?style=svg)](https://circleci.com/gh/uweschaefer/mvnd/tree/master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/125081c2ed864928a923e3223680a331)](https://www.codacy.com/app/uwe/mvnd?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=uweschaefer/mvnd&amp;utm_campaign=Badge_Grade)
 [![DepShield Badge](https://depshield.sonatype.org/badges/uweschaefer/mvnd/depshield.svg)](https://depshield.github.io)
 
 Install by downloading (or building) the mvnd.jar and running
