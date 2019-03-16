@@ -28,6 +28,13 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<extensions>
+			<extension>
+				<groupId>kr.motd.maven</groupId>
+				<artifactId>os-maven-plugin</artifactId>
+				<version>1.6.1</version>
+			</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -48,7 +55,7 @@
 									<includes>
 										<include>mvnc</include>
 									</includes>
-									<targetPath>client/Linux-amd64</targetPath>
+									<targetPath>client/${os.detected.name}_${os.detected.arch}</targetPath>
 								</resource>
 							</resources>
 						</configuration>
