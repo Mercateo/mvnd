@@ -1,8 +1,8 @@
 ## mvnd
 Daemon backend for simple Maven runs without JVM Startup penalty
 
-[![CircleCI](https://circleci.com/gh/uweschaefer/mvnd/tree/master.svg?style=svg)](https://circleci.com/gh/uweschaefer/mvnd/tree/master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/125081c2ed864928a923e3223680a331)](https://www.codacy.com/app/uwe/mvnd?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=uweschaefer/mvnd&amp;utm_campaign=Badge_Grade)
+[![CircleCI](https://circleci.com/gh/Mercateo/mvnd/tree/master.svg?style=svg)](https://circleci.com/gh/Mercateo/mvnd/tree/master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4244d23fe9794184a4b4d44256194be2)](https://www.codacy.com/app/uwe/mvnd?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Mercateo/mvnd&amp;utm_campaign=Badge_Grade)
 
 Install by downloading (or building) the mvnd.jar and running
 
