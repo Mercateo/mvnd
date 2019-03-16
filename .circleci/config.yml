@@ -28,9 +28,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: 
-          name: Validate formal standards
-          command: mvn formatter:validate license:check impsort:check
+#      - run: 
+#          name: Validate formal standards
+#          command: mvn formatter:validate license:check impsort:check
 
 #
 #      - run:
