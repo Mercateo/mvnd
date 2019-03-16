@@ -13,37 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mercateo.oss.mvnd;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.stream.Stream;
 
 import com.mercateo.oss.mvnd.MVNDProto.InvokeRequest;
 import com.mercateo.oss.mvnd.MVNDProto.InvokeResponse;
+import com.mercateo.oss.mvnd.MVNDServiceGrpc;
 import com.mercateo.oss.mvnd.MVNDServiceGrpc.MVNDServiceBlockingStub;
-import com.mercateo.oss.mvnd.MVNDServiceGrpc.MVNDServiceStub;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
-public class MVNTestClient {
+public class mvnc {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         
-        
-        while(true)
-        run();
-
-    }
-
-    private static void run() {
         ManagedChannel c = ManagedChannelBuilder.forAddress("localhost", 1971).usePlaintext().build();
         MVNDServiceBlockingStub stub = MVNDServiceGrpc.newBlockingStub(c);
 
+        String work = new File(".").getCanonicalPath();
         InvokeRequest r = InvokeRequest.newBuilder()
-                .setWorkDir("/home/usr/work/workspaces/mvnd/mvnd/mvnd-server/")
-                .addAllArgs(Arrays.asList("validate"))
+                .setWorkDir(work)
+                .addAllArgs(Arrays.asList(args))
                 .build();
 
         for (Iterator<InvokeResponse> iterator = stub.invoke(r); iterator.hasNext();) {
@@ -58,7 +52,7 @@ public class MVNTestClient {
                 break;
 
             case InvokeResponse.ResponseType.EXIT_VALUE:
-                System.out.println(res.getErrorCode());
+                System.out.println("exit: "+res.getErrorCode());
                 break;
 
             default:
