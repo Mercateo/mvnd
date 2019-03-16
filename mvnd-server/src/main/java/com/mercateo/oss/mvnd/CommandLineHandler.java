@@ -23,6 +23,8 @@ import java.net.URL;
 
 import org.unix4j.Unix4j;
 
+import com.google.common.collect.Lists;
+
 import io.grpc.internal.IoUtils;
 import lombok.RequiredArgsConstructor;
 
@@ -68,8 +70,23 @@ public class CommandLineHandler implements Runnable {
     }
 
     private void createMvnc(File mvnc) {
-        String os_name = System.getProperty("os.name");
-        String arch = System.getProperty("os.arch");
+        
+        
+        Detector detector = new Detector() {
+            @Override
+            protected void log(String message) {
+             System.out.println(message);   
+            }
+            @Override
+            protected void logProperty(String name, String value) {
+                
+            }
+        };
+        
+        
+        detector.detect(System.getProperties(), Lists.newArrayList());
+        String os_name = System.getProperty("os.detected.name");
+        String arch = System.getProperty("os.detected.arch");
         String os = os_name + "-" + arch;
 
         System.out.println("Detected Operating System: " + os);

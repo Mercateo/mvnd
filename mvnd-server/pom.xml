@@ -55,7 +55,7 @@
 									<includes>
 										<include>mvnc</include>
 									</includes>
-									<targetPath>client/${os.detected.name}_${os.detected.arch}</targetPath>
+									<targetPath>client/${os.detected.name}-${os.detected.arch}</targetPath>
 								</resource>
 							</resources>
 						</configuration>
