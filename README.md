@@ -1,3 +1,7 @@
+
+# This project is deprecated. To be honest it was stale for a while. please consider using 
+# https://github.com/mvndaemon/mvnd which is a far better implementation.
+
 ## mvnd
 Daemon backend for simple Maven runs without JVM Startup penalty
 
